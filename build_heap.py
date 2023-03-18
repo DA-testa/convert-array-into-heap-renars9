@@ -31,7 +31,7 @@ def build_heap(arr, n):
 
 def main():
     
-    filename = "test/"
+    filename = "tests/"
     check = input()
     if( 'I' in check):
         n = int(input())
