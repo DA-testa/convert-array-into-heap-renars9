@@ -1,45 +1,59 @@
 # python3
-import numpy
-
-def build_heap(data):
+def swapping(data,n,i):
     swaps = []
-    smallest = i  
+    min = i  
     left = 2 * i + 1  
     right = 2 * i + 2 
 
-    if left < n and arr[left] < arr[smallest]:
-        smallest = left
+    if left < n and data[left] < data[min]:
+        min = left
 
-    if right < n and arr[right] < arr[smallest]:
-        smallest = right
+    if right < n and data[right] < data[min]:
+        min = right
 
-    if smallest != i:
-        arr[i], arr[smallest] = arr[smallest], arr[i]
-        swaps.append((i, smallest))
-        sub_swaps = heapify(arr, n, smallest)
+    if min != i:
+        data[i], data[min] = data[min], data[i]
+        swaps.append((i, min))
+        sub_swaps = swapping(data, n, min)
         swaps.extend(sub_swaps)
+
+    return swaps
+
+def build_heap(arr, n):
+   
+    swaps = []
+    for i in range(n // 2 - 1, -1, -1):
+        sub_indices = swapping(arr, n, i)
+        swaps.extend(sub_indices)
 
     return swaps
 
 
 def main():
     
-    # TODO : add input and corresponding checks
-    # add another input for I or F 
-    # first two tests are from keyboard, third test is from a file
+   filename = "test/"
+    check = input()
+    if( 'I' in check):
+        n = int(input())
+        data = list(map(int, input().split()))
 
+    elif('F' in check):
+        filename = filename + input()
 
-    # input from keyboard
-    n = int(input())
-    data = list(map(int, input().split()))
-    arr = numpy.fromstring(data, dtype=int, sep=' ')
+        if('a' in filename[-1]):
+            print("invalid filename")
+            return
+        
+        with open(filename) as f:
+            n = int(f.readline())
+            data = list(map(int, f.readline().split()))
 
     # checks if lenght of data is the same as the said lenght
     assert len(data) == n
 
     # calls function to assess the data 
     # and give back all swaps
-    swaps = build_heap(data)
+    swaps = build_heap(data,n)
 
     # TODO: output how many swaps were made, 
     # this number should be less than 4n (less than 4*len(data))
@@ -53,3 +67,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
